@@ -26,8 +26,8 @@ public struct AWCalendarView<T>: View where T:View{
                             let date = day
                             cellBuilder(date)
                                 .opacity(date.month == cal.month ? 1 : 0.4)
-                                .onTapGesture {
-                                    cal.onTapEnd()
+                                .onTapGesture { 
+                                    cal.onTapEnd(day)
                                 }
                                 .background(
                                     GeometryReader { geometry in
@@ -72,6 +72,10 @@ public struct CalendarCell : View {
     
     var date : Date{
         item.value
+    }
+    
+    public init(item:dayComponent){
+        self.item = item
     }
     
     public var body: some View {

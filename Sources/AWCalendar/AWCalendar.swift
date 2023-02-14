@@ -2,16 +2,16 @@ import Foundation
 import SwiftUI
 
 
-public class CalendarController : ObservableObject {
+open class CalendarController : ObservableObject {
     private(set) var daysOfMonth : [dayComponent] = []
     private(set) var weekdayStart : Int
     private(set) var month : Int
     @Published var cardsData : [CellPreferenceData] = []
     @Published var selectedCardsIndices: [UUID] = []
 
-    
-    let lastDay : Date
-    let numDays : Int
+    public let firstday : Date
+    public let lastDay : Date
+    public let numDays : Int
     
     //seperate into rows of 7 days
     var arrayOfWeeks : [[dayComponent]]{
@@ -28,10 +28,10 @@ public class CalendarController : ObservableObject {
         let monthInterval = calendar.dateInterval(of: .month, for: date)!
         let firstDateofMonth = monthInterval.start
         let lastDateOfMonth = monthInterval.end
-        
         self.numDays = calendar.dateComponents([.day], from: firstDateofMonth, to: lastDateOfMonth).day!
         self.weekdayStart = calendar.component(.weekday, from: date) - 1
         self.lastDay = lastDateOfMonth
+        self.firstday = firstDateofMonth
         self.month = monthOf
         
         //to fill up the first row with days from prev month
@@ -57,7 +57,7 @@ public class CalendarController : ObservableObject {
         return Calendar.current.weekdaySymbols[weekdayStart]
     }
     
-    public func onTapEnd(){
+    open func onTapEnd(_ day: dayComponent){
         
     }
     
@@ -76,7 +76,7 @@ public class CalendarController : ObservableObject {
         }
     }
     
-    func onDragEnd(){
+    open func onDragEnd(){
         self.selectedCardsIndices = []
     }
 }
@@ -114,11 +114,12 @@ struct CellPreferenceKey: PreferenceKey {
 extension Date{
     func getDayAsString() -> String{
         let formatter = DateFormatter()
+        formatter.calendar = .autoupdatingCurrent
         formatter.dateFormat = "d"
         return formatter.string(from: self)
     }
     func getMonthasInt() -> Int{
-        let calendar = Calendar.current
+        let calendar = Calendar.autoupdatingCurrent
         return calendar.component(.month, from: self)
     }
 }
