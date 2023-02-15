@@ -35,13 +35,13 @@ open class CalendarController : ObservableObject {
         self.month = monthOf
         
         //to fill up the first row with days from prev month
-        for i in (1...weekdayStart).reversed(){
+        for i in (0...weekdayStart).reversed(){
             let day = dayComponent(value: calendar.date(byAdding: .day,value: -i ,to: firstDateofMonth)!)
             daysOfMonth.append(day)
         }
         
         //days of the month
-        for i in 0..<numDays {
+        for i in 1..<numDays {
             let day = dayComponent(value: calendar.date(byAdding: .day, value: i, to: firstDateofMonth)!)
             daysOfMonth.append(day)
         }

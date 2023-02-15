@@ -91,7 +91,7 @@ public struct CalendarCell : View {
     
 struct AWSwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        AWCalendarView(cal: CalendarController(monthOf: 2, yearOf: 2023)){item in
+        AWCalendarView(cal: CalendarController(monthOf: 10, yearOf: 2023)){item in
             CalendarCell(item: item)
                 .frame(width: 50,height: 50)
         }
