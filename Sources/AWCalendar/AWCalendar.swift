@@ -9,7 +9,7 @@ open class CalendarController : ObservableObject {
     @Published var cardsData : [CellPreferenceData] = []
     @Published var selectedCardsIndices: [UUID] = []
 
-    public let firstday : Date
+    public let firstDay : Date
     public let lastDay : Date
     public let numDays : Int
     
@@ -30,8 +30,6 @@ open class CalendarController : ObservableObject {
         let lastDateOfMonth = monthInterval.end
         self.numDays = calendar.dateComponents([.day], from: firstDateofMonth, to: lastDateOfMonth).day!
         self.weekdayStart = calendar.component(.weekday, from: date) - 1
-        self.lastDay = lastDateOfMonth
-        self.firstday = firstDateofMonth
         self.month = monthOf
         
         //to fill up the first row with days from prev month
@@ -51,6 +49,9 @@ open class CalendarController : ObservableObject {
             let day = dayComponent(value: calendar.date(byAdding: .day,value: i, to: lastDateOfMonth)!)
             daysOfMonth.append(day)
         }
+        
+        self.firstDay = daysOfMonth[0].value
+        self.lastDay = daysOfMonth.last!.value
     }
     
     public func getWeekday() -> String{
